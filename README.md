@@ -20,4 +20,4 @@
 - Once reviewed and tested your code may be merged to master  
 
 ### Testing
--
+- run $npm run test
