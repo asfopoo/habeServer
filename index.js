@@ -14,24 +14,24 @@ const swaggerDocument = require('./swagger.json');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));*/
 
 //start mysql connection
-var connection = mysql.createConnection({
+/*var connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER_NAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   port: process.env.DB_PORT
-});
+});*/
 
-connection.connect(function(err) {
+/*connection.connect(function(err) {
   if (err) throw err;
   console.log('connected to habe database...')
-});
+});*/
 
-app.use(cors());
+/*app.use(cors());
 app.use(bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
-}));
+}));*/
 
 
 //create app server
@@ -46,7 +46,7 @@ var server = app.listen(process.env.SERVER_PORT, "0.0.0.0", function () {
 
 
 //routes
-app.post('/createUser', function (req, res) {
+/*app.post('/createUser', function (req, res) {
     if (!req.body.firstName || !req.body.lastName || !req.body.email) {
       res.statusMessage = "Request does not contain required fields";
       res.sendStatus(401);
@@ -60,13 +60,12 @@ app.post('/createUser', function (req, res) {
         res.end(JSON.stringify(results));
       });
     }
-});
+});*/
 app.get('/users', function (req, res) {
-    connection.query('SELECT * FROM habe.user', function (error, results) {
-      if (error) throw error;
-      res.end(JSON.stringify(results));
-    });
+    let results = {"id":19,"first_name":"joe ","last_name":"shmoe","email":"some","username":"some","password":"$2b$10$x.CjTPWTPS/T7CklsxbpceC3C2BecHtteBO5c0PB2IHnCQqgr2kaW"};
+    res.end(JSON.stringify(results));
 });
+/*
 app.get('/deleteUsers', function (req, res) {
   connection.query('DELETE FROM habe.user', function (error, results) {
     if (error) throw error;
@@ -102,6 +101,7 @@ app.post('/login', (req, res) => {
     }
   });
 });
+*/
 
 
 module.exports = server;
