@@ -28,7 +28,6 @@ connection.connect(function(err) {
 });
 
 app.use(cors());
-//start body-parser configuration
 app.use(bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
@@ -46,7 +45,7 @@ var server = app.listen(process.env.SERVER_PORT, "0.0.0.0", function () {
 
 
 
-
+//routes
 app.post('/createUser', function (req, res) {
     if (!req.body.firstName || !req.body.lastName || !req.body.email) {
       res.statusMessage = "Request does not contain required fields";
@@ -96,7 +95,7 @@ app.post('/login', (req, res) => {
           res.status(401).json({
             sucess: false,
             token: null,
-            err: 'Entered Password and Hash do not match!'
+            err: 'Passwords do not match!'
           })
         }
       });
