@@ -2,6 +2,10 @@ var express = require('express');
 var app = express();
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
+var cors = require('cors');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+var jwt = require('jsonwebtoken');
 
 
 /*/////swagger stuff
@@ -23,9 +27,8 @@ connection.connect(function(err) {
   console.log('connected to habe database...')
 });
 
-
-//start body-parser configuration
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(cors());
+app.use(bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
@@ -42,15 +45,16 @@ var server = app.listen(process.env.SERVER_PORT, "0.0.0.0", function () {
 
 
 
-
+//routes
 app.post('/createUser', function (req, res) {
-    if (!req.body.first_name || !req.body.last_name || !req.body.email) {
+    if (!req.body.firstName || !req.body.lastName || !req.body.email) {
       res.statusMessage = "Request does not contain required fields";
       res.sendStatus(401);
     } else {
-      console.log('req body', req.body);
-      let sql = "INSERT INTO habe.user (first_name, last_name, email, username) VALUES ('" + req.body.first_name + "', '" + req.body.last_name + "', '" + req.body.email + "', '" + req.body.username + ")";
-      console.log('User Inserted');
+      const salt = bcrypt.genSaltSync(saltRounds);
+      const hash = bcrypt.hashSync(req.body.password, salt);
+
+      let sql = "INSERT INTO habe.user (first_name, last_name, email, username, password) VALUES ('" + req.body.firstName + "', '" + req.body.lastName + "', '" + req.body.email + "', '" + req.body.username + "', '" + hash + "' )";
       connection.query(sql, function (error, results) {
         if (error) throw error;
         res.end(JSON.stringify(results));
@@ -58,11 +62,46 @@ app.post('/createUser', function (req, res) {
     }
 });
 app.get('/users', function (req, res) {
-    connection.query('SELECT * from habe.user', function (error, results) {
+    connection.query('SELECT * FROM habe.user', function (error, results) {
       if (error) throw error;
-      console.log(res);
       res.end(JSON.stringify(results));
     });
 });
+app.get('/deleteUsers', function (req, res) {
+  connection.query('DELETE FROM habe.user', function (error, results) {
+    if (error) throw error;
+    res.end(JSON.stringify(results));
+  });
+});
+
+app.post('/login', (req, res) => {
+  const {username, password} = req.body;
+
+  connection.query('SELECT * FROM habe.user WHERE username = ?', [username], function (error, results) {
+    let foundUser = results;
+    if (!foundUser) {
+      res.statusMessage = "User not found";
+      res.sendStatus(403);
+    } else {
+      bcrypt.compare(password, foundUser[0].password, function(err, result) {
+        if (result) {
+          let token = jwt.sign({username: foundUser.username}, 'cmV0dXJubG9naWM=', {expiresIn: 12960000});
+          res.json({
+            sucess: true,
+            err: null,
+            token
+          })
+        } else {
+          res.status(401).json({
+            sucess: false,
+            token: null,
+            err: 'Passwords do not match!'
+          })
+        }
+      });
+    }
+  });
+});
+
 
 module.exports = server;
