@@ -116,10 +116,8 @@ app.post('/login', (req, res) => {
           if (result) {
             let token = jwt.sign({username: foundUser.username}, 'cmV0dXJubG9naWM=', {expiresIn: 12960000});
             res.json({
-              success: true,
-              err: null,
+              user: foundUser,
               token: token,
-              user: foundUser.id
             })
           } else {
             res.status(401).json({
