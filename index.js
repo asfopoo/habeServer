@@ -68,7 +68,8 @@ app.post('/createUser', function (req, res) {
         res.json({
           success: true,
           err: null,
-          token
+          token: token,
+          user: results.insertId
         })
       });
     }
@@ -117,7 +118,8 @@ app.post('/login', (req, res) => {
             res.json({
               success: true,
               err: null,
-              token
+              token: token,
+              user: foundUser.id
             })
           } else {
             res.status(401).json({
@@ -132,8 +134,72 @@ app.post('/login', (req, res) => {
   }
 });
 
-//TODO
+
 //verified by jwt
+app.post('/user', function (req, res) {
+  if (!req.body.jwt || !req.body.userId) {
+    res.statusMessage = "Request does not contain required fields";
+    res.sendStatus(401);
+  }
+  else {
+    jwt.verify(req.body.jwt, 'cmV0dXJubG9naWM=', {algorithm: 'RS256'}, function (err, decoded) {
+      if (err) {
+        res.statusMessage = "Invalid JWT";
+        res.sendStatus(403);
+      }
+      else {
+        connection.query("SELECT * FROM habe.user WHERE id = ?", [req.body.userId], function (error, results) {
+          if (error) throw error;
+          res.end(JSON.stringify(results));
+        });
+      }
+    })
+  }
+});
+
+app.post('/interests', function (req, res) {
+  if (!req.body.jwt || !req.body.userId) {
+    res.statusMessage = "Request does not contain required fields";
+    res.sendStatus(401);
+  }
+  else {
+    jwt.verify(req.body.jwt, 'cmV0dXJubG9naWM=', {algorithm: 'RS256'}, function (err, decoded) {
+      if (err) {
+        res.statusMessage = "Invalid JWT";
+        res.sendStatus(403);
+      } else {
+        req.body.interests.map(interest => {
+          let sql = "INSERT INTO habe.profile (user_id, interest) VALUES ('" + req.body.userId + "', '" + interest.name + "' )";
+          connection.query(sql, function (error, results) {
+            if (error) throw error;
+          });
+        });
+      }
+    });
+    res.sendStatus(200);
+  }
+});
+
+app.post('/profile', function (req, res) {
+  if (!req.body.jwt || !req.body.userId) {
+    res.statusMessage = "Request does not contain required fields";
+    res.sendStatus(401);
+  }
+  else {
+    jwt.verify(req.body.jwt, 'cmV0dXJubG9naWM=', {algorithm: 'RS256'}, function (err, decoded) {
+      if (err) {
+        res.statusMessage = "Invalid JWT";
+        res.sendStatus(403);
+      }
+      else {
+          connection.query("SELECT * FROM habe.profile WHERE user_id = ?", [req.body.userId], function (error, results) {
+            if (error) throw error;
+            res.end(JSON.stringify(results));
+          });
+      }
+    })
+  }
+});
 
 
 
