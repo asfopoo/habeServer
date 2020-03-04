@@ -15,11 +15,11 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));*/
 
 //start mysql connection
 var connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER_NAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT
+  host: config.DB_HOST,
+  user: config.DB_USER_NAME,
+  password: config.DB_PASSWORD,
+  database: config.DB_NAME,
+  port: config.DB_PORT
 });
 
 connection.connect(function(err) {
@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 
 
 //create app server
-var server = app.listen(process.env.SERVER_PORT, "0.0.0.0", function () {
+var server = app.listen(config.SERVER_PORT, "0.0.0.0", function () {
 
   var host = server.address().address;
   var port = server.address().port;
@@ -53,7 +53,7 @@ app.post('/createUser', function (req, res) {
       res.statusMessage = "Request does not contain required fields";
       res.sendStatus(401);
     }
-    else if (req.body.UUID !== process.env.UUID) {
+    else if (req.body.UUID !== config.UUID) {
       res.statusMessage = "Not Authorized";
       res.sendStatus(403);
     }
@@ -81,7 +81,7 @@ app.post('/users', function (req, res) {
     res.statusMessage = "Request does not contain required fields";
     res.sendStatus(401);
   }
-  else if (req.body.UUID !== process.env.UUID) {
+  else if (req.body.UUID !== config.UUID) {
     res.statusMessage = "Not Authorized";
     res.sendStatus(403);
   }
@@ -99,7 +99,7 @@ app.post('/login', (req, res) => {
     res.statusMessage = "Request does not contain required fields";
     res.sendStatus(401);
   }
-  else if (req.body.UUID !== process.env.UUID) {
+  else if (req.body.UUID !== config.UUID) {
     res.statusMessage = "Not Authorized";
     res.sendStatus(403);
   }
