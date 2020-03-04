@@ -1,0 +1,436 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Habe" ,
+    "version": "1.0.0",
+    "title": "Habe",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "enardo@ycp.edu"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "habe",
+  "basePath": "/v2",
+  "tags": [
+    {
+      "name": "user",
+      "description": "Endpoints regarding the user",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://github.com/asfopoo/habe"
+      }
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Gets all users",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/users"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/usersResponse"
+            }
+          },
+          "401": {
+            "description": "Request does not contain required fields"
+            },
+          "403": {
+            "description": "Not Authorized"
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Gets a specific users",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/userResponse"
+            }
+          },
+          "401": {
+            "description": "Request does not contain required fields"
+          },
+          "403": {
+            "description": "Not Authorized"
+          }
+        }
+      }
+    },
+    "/createUser": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Creates a new user",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/createUserResponse"
+            }
+          },
+          "401": {
+            "description": "Request does not contain required fields"
+          },
+          "403": {
+            "description": "Not Authorized"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Logs in a valid user",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/loginResponse"
+            }
+          },
+          "401": {
+            "description": "Request does not contain required fields"
+          },
+          "403": {
+            "description": "Not Authorized"
+          }
+        }
+      }
+    },
+    "/interests": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Inserts a list of interests associated with a user",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/interests"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/interestsResponse"
+            }
+          },
+          "401": {
+            "description": "Request does not contain required fields"
+          },
+          "403": {
+            "description": "Not Authorized"
+          }
+        }
+      }
+    },
+    "/profile": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Gets all information associated with a user",
+        "description": "",
+        "operationId": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/profile"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/userResponse"
+            }
+          },
+          "401": {
+            "description": "Request does not contain required fields"
+          },
+          "403": {
+            "description": "Not Authorized"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "user": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "jwt": {
+          "type": "string"
+        }
+      }
+    },
+    "users": {
+      "type": "object",
+      "properties": {
+        "UUID": {
+          "type": "string"
+        }
+      }
+    },
+    "createUser": {
+      "type": "object",
+      "properties": {
+        "UUID": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email ": {
+          "type": "string"
+        },
+        "username ": {
+          "type": "string"
+        },
+        "password ": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": ""
+      }
+    },
+    "login": {
+      "type": "object",
+      "properties": {
+        "UUID": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "interests": {
+      "type": "object",
+      "properties": {
+        "jwt": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "integer"
+        },
+        "interests": {
+          "type": "object"
+        }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "properties": {
+        "jwt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userId": {
+          "type": "string"
+        }
+      }
+    },
+    "userResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email ": {
+          "type": "string"
+        },
+        "username ": {
+          "type": "string"
+        },
+        "password ": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": ""
+      }
+    },
+    "usersResponse": {
+      "type": "object",
+      "properties": {
+        "users": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": ""
+      }
+    },
+    "createUserResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "string"
+        },
+        "err": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        },
+        "user ": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": ""
+      }
+    },
+    "loginResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": ""
+      }
+    },
+    "interestsResponse": {
+      "type": "object",
+      "properties": {
+        "interests": {
+          "type": "object"
+        }
+      },
+      "xml": {
+        "name": ""
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}

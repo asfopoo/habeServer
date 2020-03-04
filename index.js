@@ -9,10 +9,10 @@ var jwt = require('jsonwebtoken');
 var config = require('./config.json');
 
 
-/*/////swagger stuff
+/////swagger stuff
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));*/
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //start mysql connection
 var connection = mysql.createConnection({
@@ -143,7 +143,7 @@ app.post('/user', function (req, res) {
   else {
     jwt.verify(req.body.jwt, 'cmV0dXJubG9naWM=', {algorithm: 'RS256'}, function (err, decoded) {
       if (err) {
-        res.statusMessage = "Invalid JWT";
+        res.statusMessage = "Not Authorized";
         res.sendStatus(403);
       }
       else {
@@ -164,7 +164,7 @@ app.post('/interests', function (req, res) {
   else {
     jwt.verify(req.body.jwt, 'cmV0dXJubG9naWM=', {algorithm: 'RS256'}, function (err, decoded) {
       if (err) {
-        res.statusMessage = "Invalid JWT";
+        res.statusMessage = "Not Authorized";
         res.sendStatus(403);
       } else {
         req.body.interests.map(interest => {
@@ -187,7 +187,7 @@ app.post('/profile', function (req, res) {
   else {
     jwt.verify(req.body.jwt, 'cmV0dXJubG9naWM=', {algorithm: 'RS256'}, function (err, decoded) {
       if (err) {
-        res.statusMessage = "Invalid JWT";
+        res.statusMessage = "Not Authorized";
         res.sendStatus(403);
       }
       else {
