@@ -6,6 +6,7 @@ var cors = require('cors');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 var jwt = require('jsonwebtoken');
+import config from './config';
 
 
 /*/////swagger stuff
