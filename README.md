@@ -20,4 +20,7 @@
 - Once reviewed and tested your code may be merged to master  
 
 ### Testing
-- run $npm run test
+- run $npm run test  
+  
+### Troubleshooting  
+- If you recieve "ER_NOT_SUPPORTED_AUTH_MODE: Client does not support authentication protocol requested by server; consider upgrading MariaDB client" connect to the database via sql workbench or datagrip and execute ```$ ALTER USER '<Database user>' IDENTIFIED WITH mysql_native_password BY '<Database password>'``` then execute ```$ flush privileges```
