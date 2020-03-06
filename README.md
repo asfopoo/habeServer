@@ -26,4 +26,4 @@
 - If you recieve "ER_NOT_SUPPORTED_AUTH_MODE: Client does not support authentication protocol requested by server; consider upgrading MariaDB client" connect to the database via sql workbench or datagrip and execute ```$ ALTER USER '<Database user>' IDENTIFIED WITH mysql_native_password BY '<Database password>'``` then execute ```$ flush privileges```
 
 ### Swagger
-- Api documentation can be found at http://localhost:3333/api-docs/#/user/post_interests Whent the server is running.
+- Api documentation can be found at http://localhost:3333/api-docs/#/ Whent the server is running.
